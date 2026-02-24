@@ -55,7 +55,8 @@ with st.sidebar:
             value=50,
             step=10,
         )
-        if chunk_overlap >= chunk_size:
+        overlap_valid = chunk_overlap < chunk_size
+        if not overlap_valid:
             st.warning("⚠️ Overlap must be smaller than chunk size.")
 
     # Semantic settings
@@ -63,15 +64,15 @@ with st.sidebar:
         st.markdown("### 🧠 Semantic Settings")
         st.caption(f"**Embedding model:** `{EMBEDDING_MODEL}`")
         breakpoint_threshold = st.slider(
-            "Breakpoint percentile threshold",
+            "Breakpoint sensitivity",
             min_value=10,
             max_value=95,
             value=70,
             step=5,
             help=(
                 "Higher values = fewer, larger chunks. "
-                "A break is inserted when the similarity between consecutive "
-                "sentences drops below this percentile."
+                "Controls how aggressively the text is split: higher values "
+                "require a bigger similarity drop to create a new chunk."
             ),
         )
 
@@ -204,7 +205,11 @@ if st.button("✂️ Chunk Text", type="primary", use_container_width=True):
     elif len(input_text) < 50:
         st.warning("Text is too short for meaningful chunking. Please provide more content.")
     else:
-        if strategy == "Both (compare)":
+        # Guard: don't run fixed-size chunking with invalid overlap
+        needs_fixed = strategy in ["Fixed-size with Overlap", "Both (compare)"]
+        if needs_fixed and not overlap_valid:
+            st.error("Cannot chunk: overlap must be smaller than chunk size. Please adjust the settings.")
+        elif strategy == "Both (compare)":
             col_fixed, col_semantic = st.columns(2)
 
             with col_fixed:

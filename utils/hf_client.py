@@ -11,7 +11,14 @@ from huggingface_hub import InferenceClient
 @st.cache_resource
 def get_client() -> InferenceClient:
     """Create and cache the HF InferenceClient using Streamlit secrets."""
-    return InferenceClient(token=st.secrets["HF_TOKEN"])
+    token = st.secrets.get("HF_TOKEN")
+    if not token:
+        st.error(
+            "**HF_TOKEN not found.** Please add your Hugging Face token to "
+            "`.streamlit/secrets.toml` as `HF_TOKEN = \"hf_...\"`."
+        )
+        st.stop()
+    return InferenceClient(token=token)
 
 
 def safe_summarize(

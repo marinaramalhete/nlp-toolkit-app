@@ -63,11 +63,12 @@ with st.sidebar:
 
 # ─── Visualization Helpers ───────────────────────────────────────────────────
 
-def render_similarity_gauge(score: float, label: str):
+def render_similarity_gauge(score: float, label: str, lang: str = "English"):
     """Render a colored progress-bar-style gauge for cosine similarity."""
     level = get_similarity_level(score)
     color = level["color"]
     pct = max(0, min(100, int(score * 100)))
+    level_label = level["label_pt"] if lang != "English" else level["label_en"]
 
     st.markdown(
         f"""
@@ -81,7 +82,7 @@ def render_similarity_gauge(score: float, label: str):
                             border-radius: 10px; transition: width 0.5s;"></div>
             </div>
             <div style="text-align: right; color: {color}; font-size: 0.9em; margin-top: 2px;">
-                {level['label_en']}
+                {level_label}
             </div>
         </div>
         """,
@@ -150,6 +151,7 @@ if st.button("🔍 Compute Similarity", type="primary", use_container_width=True
                     render_similarity_gauge(
                         metrics["cosine_similarity"],
                         "Cosine Similarity",
+                        lang=language,
                     )
 
                     # Additional metrics

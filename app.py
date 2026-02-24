@@ -36,9 +36,9 @@ def home_page():
             | Language | Model |
             |---|---|
             | English | `BART-large-CNN` |
-            | PT-BR | `mT5 XLSum` (multilingual) |
+            | PT-BR | `PTT5 XLSum` |
 
-            Configure summary length with `min_length` and `max_length` controls.
+            The model generates an optimal summary length automatically.
             """
         )
 
