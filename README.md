@@ -81,4 +81,4 @@ This app is designed for **Streamlit Community Cloud**. To deploy your own insta
 
 ## Author
 
-**Marina Ramalhete** — [GitHub](https://github.com/marinaramalhete) · [LinkedIn](https://www.linkedin.com/in/marinaramalhete/)
+**Marina Ramalhete Masid** — [GitHub](https://github.com/marinaramalhete) · [LinkedIn](https://www.linkedin.com/in/marinaramalhete/)
