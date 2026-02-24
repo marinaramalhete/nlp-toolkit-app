@@ -2,8 +2,6 @@
 
 A multi-feature NLP application built with **Streamlit** and powered by modern **Transformer** models. Supports both **English** and **Portuguese (PT-BR)**.
 
-> **Live demo:** [nlp-toolkit.streamlit.app](https://marinaramalhete-nlp-text-summary-app-nlp-text-summary-ohuns8.streamlit.app/)
-
 ---
 
 ## Features
