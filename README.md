@@ -1,37 +1,84 @@
-# Text summary with NLP in portuguese and english
+# 🤗 NLP Toolkit
 
-Medium -> https://medium.com/@marinaramalhete/resumindo-textos-com-nlp-f9fb50a0e027
+A multi-feature NLP application built with **Streamlit** and powered by modern **Transformer** models. Supports both **English** and **Portuguese (PT-BR)**.
 
-# Getting Started
-Here is some information to help you get started. This application is still in development and many other features can be added and improved!
+> **Live demo:** [nlp-toolkit.streamlit.app](https://marinaramalhete-nlp-text-summary-app-nlp-text-summary-ohuns8.streamlit.app/)
 
-## Prerequisites
-The packages needed are in the `requirements.txt` file.
+---
 
-## Installing
-Clone the repository and install all the packages necessary:
+## Features
 
-```
-pip install virtualenv
-virtualenv venv
-source venv/bin/activate
+| Feature | Description | Models / Libraries |
+|---|---|---|
+| **📝 Text Summarization** | Abstractive summarization via Hugging Face Inference API | `BART-large-CNN` (EN), `PTT5-base-summ-xlsum` (PT-BR) |
+| **🏷️ Named Entity Recognition** | Entity extraction with displaCy visualization and CSV export | `spaCy en_core_web_sm` (18 entity types), `pt_core_news_sm` (4 types) |
+| **✂️ Text Chunking** | Fixed-size and semantic chunking with side-by-side comparison | `LangChain RecursiveCharacterTextSplitter`, HF embeddings |
+| **🔗 Semantic Similarity** | Cosine similarity between texts with language-aware model selection | `BERTimbau` (PT-BR), `MiniLM` / `MPNet` (multilingual) |
 
-pip install -r requirements.txt 
-```
-
-Use the following command to run the application:
+## Architecture
 
 ```
-streamlit run nlp_text_summary.py
+app.py                  # Entry point — st.navigation multi-page routing
+pages/
+  summarization.py      # HF Inference API summarization
+  ner.py                # spaCy NER + displaCy rendering
+  chunking.py           # Fixed-size & semantic chunking
+  similarity.py         # Sentence-transformer similarity
+utils/
+  config.py             # Centralized models, colors, thresholds, example texts
+  hf_client.py          # Shared InferenceClient with retry logic
+  spacy_models.py       # Cached spaCy model loading
 ```
 
-# Deployment
-You can create your own app on Heroku platform. Follow [this](https://devcenter.heroku.com/)
+## Tech Stack
 
-You can access the app [here](https://marinaramalhete-nlp-text-summary-app-nlp-text-summary-ohuns8.streamlit.app/)
+- **Streamlit** — Multi-page UI with `st.navigation`
+- **Hugging Face Inference API** — Serverless model inference (free tier)
+- **spaCy 3.7** — NER pipelines + displaCy visualization
+- **LangChain** — Text splitters for chunking strategies
+- **NumPy / Pandas** — Similarity metrics and data export
 
-# Built With
-[Streamlit](https://docs.streamlit.io/index.html) - The web framework and App host
+## Getting Started
 
-# Author
-Marina Ramalhete de Souza - [Linkedin](https://www.linkedin.com/in/marinaramalhete/) [Github](https://github.com/marinaramalhete)
+### Prerequisites
+
+- Python 3.11+
+- A [Hugging Face](https://huggingface.co/settings/tokens) API token (free)
+
+### Installation
+
+```bash
+git clone https://github.com/marinaramalhete/NLP-Text-Summary-App.git
+cd NLP-Text-Summary-App
+
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Configuration
+
+Create a `.streamlit/secrets.toml` file with your HF token:
+
+```toml
+HF_TOKEN = "hf_..."
+```
+
+### Running
+
+```bash
+streamlit run app.py
+```
+
+## Deployment
+
+This app is designed for **Streamlit Community Cloud**. To deploy your own instance:
+
+1. Push the repo to GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io) and connect your repo
+3. Add `HF_TOKEN` in the app's **Secrets** settings
+4. Deploy
+
+## Author
+
+**Marina Ramalhete Masid** — [GitHub](https://github.com/marinaramalhete) · [LinkedIn](https://www.linkedin.com/in/marinaramalhete/)
